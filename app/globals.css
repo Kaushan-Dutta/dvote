@@ -1,27 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Square&family=Open+Sans:wght@700&family=VT323&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.flx-row-between{
+    @apply flex flex-row justify-between items-center
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.flx-row-center{
+    @apply flex flex-row justify-center items-center
+}
+.primary-container{
+    @apply px-[5vw] py-7
+}
+.large-container{
+    @apply px-[10vw] py-7
+}
+input{
+    @apply border-b-[1px] border-white outline-none text-2xl font-header py-2
+}
+li{
+    @apply list-none
+}
+.campaign{
+    .upper{
+        border-radius: 20px 20px 100px 20px;
+    }
+    .side{
+        border-radius: 20px 20px 20px 150px;
+    }
+    .lower{
+        border-radius: 100px 20px 20px 20px;
+    }
 }

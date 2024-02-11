@@ -1,34 +1,97 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.2;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Lock {
-    uint public unlockTime;
-    address payable public owner;
+contract Dvote is Ownable {
 
-    event Withdrawal(uint amount, uint when);
-
-    constructor(uint _unlockTime) payable {
-        require(
-            block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
-        );
-
-        unlockTime = _unlockTime;
-        owner = payable(msg.sender);
+    uint256 campaignPrice;
+    
+    struct Candidate {
+        address candidateId;
+        uint32 campaignId;
+        uint8 noVotes;
     }
 
-    function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+    struct Campaign {
+        uint32 campaignId;
+        address  owner;
+        uint256 endDate;
+        address[] voters;
+    }
 
-        require(block.timestamp >= unlockTime, "You can't withdraw yet");
-        require(msg.sender == owner, "You aren't the owner");
+    struct Voter {
+        address voterId;
+        address votedTo;
+    }
+    mapping (uint32 => Campaign) private campaigns;
+    mapping (address => Candidate) private candidates;
 
-        emit Withdrawal(address(this).balance, block.timestamp);
+    event CreateCampaign(uint32 campaignId, uint256 endDate, address[] candidates);
+    event Vote(address voterId,address votedTo);
 
-        owner.transfer(address(this).balance);
+    constructor(uint256 price) Ownable(msg.sender) {
+        Dvote.campaignPrice=price;
+    }
+    modifier isCampaignOwner(uint32 campaignId){
+        require(msg.sender==campaigns[campaignId].owner,"Not the campaign owner");
+        _;
+    }
+    function createCampaign(uint32 campaignId, uint256 endDate, address[] memory candidateIds)external {
+        Campaign storage campaign=campaigns[campaignId];
+        campaign.owner=msg.sender;
+        campaign.endDate=block.timestamp+endDate;
+        for(uint8 i=0;i<candidateIds.length;i++){
+
+            Candidate memory candidate=Candidate(candidateIds[i],campaignId,0);
+            candidates[candidateIds[i]]=candidate; 
+
+        }
+        emit CreateCampaign(campaignId, endDate, candidateIds);
+
+    }
+     
+    function getCampaign(uint32 campaignId)external view returns(Campaign memory){
+        return campaigns[campaignId];
+    }
+    function getCandidate(address candidateId)external view returns(Candidate memory){
+        return candidates[candidateId];
+    }
+    function voteCandidate(uint32 campaignId,address candidateId)external {
+
+        Campaign storage campaign=campaigns[campaignId];
+        require(campaign.endDate>block.timestamp,"Voting period is over");
+        
+        Candidate storage candidate=candidates[candidateId];
+        candidate.noVotes+=1;
+        campaign.voters.push(msg.sender);
+
+        emit Vote(msg.sender,candidateId);
+    }
+    function returnTokens(uint32 campaignId)external isCampaignOwner(campaignId){
+        Campaign memory campaign=campaigns[campaignId];
+        for(uint8 i=0;i<campaign.voters.length;i++){
+            _;
+        }
+    }
+
+}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.2;
+
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+library calcPrice{
+    function getValue(uint256 value)public pure returns(uint256){
+        return (value*5/100);
+    }
+}
+contract DvoteTokenSwap is Ownable {
+    uint256 tokenPrice;
+    constructor(uint256 price)Ownable(msg.sender){
+        DvoteTokenSwap.tokenPrice=price;
+    }
+    function swapToken(uint256 value)external payable{
+        assert(msg.value>=calcPrice.getValue(value));
     }
 }
