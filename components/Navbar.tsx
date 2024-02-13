@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <section className='flx-row-between primary-container font-header text-xl shadow-light shadow-sm fixed w-full backdrop-blur-sm'>
+    <section className='flx-row-between primary-container font-header text-xl shadow-light shadow-sm fixed w-full backdrop-blur-sm z-20'>
         <div className='w-2/3 flex flex-row items-center space-x-20'>
           <div className=''>
             <Logo/>

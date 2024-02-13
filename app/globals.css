@@ -18,7 +18,7 @@
     @apply px-[10vw] py-7
 }
 input{
-    @apply border-b-[1px] border-white outline-none text-2xl font-header py-2
+    @apply border-b-[1px] border-white outline-none text-xl font-header 
 }
 li{
     @apply list-none
