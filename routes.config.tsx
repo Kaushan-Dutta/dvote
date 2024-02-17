@@ -8,18 +8,19 @@ export const Navlinks=[
         name:'Create',
         path:"/createCampaign",
         onNav:true
+    },{
+        name:'Applications',
+        path:"/applications",
+        onNav:true
     },
+    
+
     {
         name:'Get Tokens',
         path:"/getTokens",
         onNav:true
     },
     
-    {
-        name:'Applications',
-        path:"/applications",
-        onNav:true
-    },
     
     
 ]

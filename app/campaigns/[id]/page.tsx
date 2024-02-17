@@ -6,9 +6,7 @@ const Campaign = () => {
   return (
     <div className='h-[100vh]  large-container'>
         <div className='py-40 flex flex-col gap-5'>
-            <div className=''>
-                <Image src="" className="border-2 w-full rounded-2xl" alt="Campaign Banner"/>
-            </div>
+            
             <div className='flx-row-between flex-wrap '>
                 <div className='w-2/3'>
                     <h1 className='text-4xl font-header'><b>Campaign Title</b></h1>

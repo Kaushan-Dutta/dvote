@@ -1,9 +1,12 @@
-import React from 'react'
+"use client"
+import React,{useState} from 'react'
 import { CiSearch } from "react-icons/ci";
 import Campaign from './Campaign';
 
 const Campaigns = () => {
   const array=[1,2,3,4,5,6]
+  const [nav,setNav]=useState<string>('ongoing');
+
   return (
     <div className='min-h-[100vh] py-40 '>
         <div className='flx-row-center'>
@@ -13,8 +16,8 @@ const Campaigns = () => {
             </div>
         </div>
         <div className='text-center flx-row-center space-x-10 font-header text-xl my-5'>
-            <li className='border-b-[1px] p-3 w-[200px]'>Ongoing Campaign</li>
-            <li className=' p-3 w-[200px]'>Past Campaign</li>
+            <li className={`${nav=='ongoing' && 'border-b-[1px]'} p-3 w-[200px]`} onClick={()=>setNav('ongoing')} >Ongoing Campaign</li>
+            <li className={` ${nav=='past' && 'border-b-[1px]'} p-3 w-[200px]`} onClick={()=>setNav('past')}>Past Campaign</li>
         </div>
         <div className='large-container flx-row-between flex-wrap '>
             {array.map((item,id)=>(

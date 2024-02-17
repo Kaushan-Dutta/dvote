@@ -34,3 +34,6 @@ li{
         border-radius: 100px 20px 20px 20px;
     }
 }
+.popup-window{
+    @apply w-screen h-screen  bg-dark bg-opacity-30 fixed z-30 justify-center items-center flex flex-row top-0 left-0 
+}
