@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React,{useState} from 'react'
 import Button from '../components/Button'
 import Underline from '../public/underline1.png'
 import Underline1 from '../public/underline2.png'
@@ -41,6 +41,11 @@ const Transaction=[
   }
 ]
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(5);
+
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   return (
     <div className='home' id="home">
       <section className=' flx-row-center text-center h-[100vh]'>

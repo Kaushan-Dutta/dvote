@@ -15,16 +15,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className="bg-primary min-h-screen  text-white ">
         <LoaderContext>
           <AuthContext>
-            <Navbar />
+           <Navbar />
               {children}
             <Footer /> 
-{/*             <Loader />
- */}          </AuthContext>
+             {/* <Loader /> */}
+         </AuthContext>
         </LoaderContext>
       </body>
     </html>
