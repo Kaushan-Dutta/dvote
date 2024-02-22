@@ -8,17 +8,20 @@ generator client {
 }
 
 model Campaign {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  endDate     DateTime
+  updatedAt   DateTime    @updatedAt
+  candidates  Candidate[]
 }
 
 model Candidate {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     String   @unique @db.ObjectId
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  campaignId String   @db.ObjectId
 }
 
 model User {
@@ -26,6 +29,11 @@ model User {
   email     String     @unique
   name      String
   password  String?
-  entity    String
+  role      UserRole   @default(USER)
   candidate Candidate?
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
