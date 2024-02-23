@@ -1,10 +1,13 @@
 import { NextResponse,NextRequest } from "next/server";
-import { User } from "../../../../lib/types/user";
 import { userExists } from "../../../../prisma/middleware/auth";
 
-export const GET = async ({ email, password }: User) => {
+export const GET = async (req:NextRequest) => {
     try {
-      const isUser = await userExists(email);
+      const url = new URL(req.url)
+      const email = url.searchParams.get("email")
+      const password = url.searchParams.get("password")
+      
+      const isUser = await userExists(email!);
       if (!isUser)
         return NextResponse.json(
           { error: "User does not exists" },
