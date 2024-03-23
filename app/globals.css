@@ -37,3 +37,7 @@ li{
 .popup-window{
     @apply w-screen h-screen  bg-dark bg-opacity-30 fixed z-30 justify-center items-center flex flex-row top-0 left-0 
 }
+
+.profile:hover .drop_down{
+    @apply flex flex-col gap-3
+}

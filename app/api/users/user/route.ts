@@ -5,10 +5,10 @@ import prisma from "../../../../prisma/prisma";
 
 
 export const GET = async (req:NextRequest) => {
-    const url = new URL(req.url)
-    const id = url.searchParams.get("id")
-
+   
     try {
+      const url = new URL(req.url)
+      const id = url.searchParams.get("id")
 
       const data = await prisma.user.findUnique({
         where: {

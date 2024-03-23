@@ -4,15 +4,15 @@ import prisma from '../../../../prisma/prisma';
 
 export const POST = async (req:NextRequest) => {
   
-  const { name, email, password } = await req.json();
-
+  const {  name,email, password } = await req.json();
+  console.log(name, email, password);
   try {
     if (await userExists(email))
       return NextResponse.json({ message:"User with same credentials"}, { status: 400 });
     const data = await prisma.user.create({
       data: {
-        email,
         name,
+        email,
         password,
       },
     });

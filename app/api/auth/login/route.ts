@@ -1,5 +1,7 @@
 import { NextResponse,NextRequest } from "next/server";
 import { userExists } from "../../../../prisma/middleware/auth";
+import { createToken } from "../../../../prisma/middleware/auth";
+
 
 export const GET = async (req:NextRequest) => {
     try {
@@ -19,7 +21,11 @@ export const GET = async (req:NextRequest) => {
           { status: 400 }
         );
       
-      return NextResponse.json({ isUser }, { status: 200 });
+        const token = createToken({
+          ...isUser
+        });
+
+        return NextResponse.json({ isUser,token }, { status: 200 });
     } catch (err) {
       return NextResponse.json({ error: err }, { status: 500 });
     }

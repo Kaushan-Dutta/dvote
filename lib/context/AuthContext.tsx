@@ -1,35 +1,51 @@
 "use client"
-import React, { useContext, createContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios'
 
 export type UserContent = {
-  
+  id: string;
+  email: string;
+  name: string;
+  role: 'USER' | 'ADMIN'; 
 };
 
 interface UserDataContext {
-  user?: UserContent; 
-  setuser?: React.Dispatch<React.SetStateAction<UserContent | undefined>>;
+  user?: UserContent | null; 
+  setUser?: React.Dispatch<React.SetStateAction<UserContent | null>>; 
 }
 
-export const Data = createContext<UserDataContext>({});
+export const AuthContext = createContext<UserDataContext | null>(null); // Renamed context
 
-const AuthContext = ({ children }: any) => {
-  const [user, setuser] = useState<UserContent | undefined>(undefined);
+const AuthProvider: React.FC = ({ children }:any) => {
+  const [user, setUser] = useState<UserContent | null>(null); // Initialize as null
 
-  const contextValue: UserDataContext = {
-    user,
-    setuser,
-  };
-  
+  useEffect(() => {
+    const loadAuth=async()=>{
+      const token = localStorage.getItem('verseToken');
+      
+      const storedUser=await axios.get('http://localhost:3000/api/verify',{
+        headers:{
+          'Authorization': 'Bearer ' +token,
+        }
+      })
+      console.log(storedUser.data.user)
+      // if (storedUser) {
+      //   setUser(JSON.parse(storedUser)); 
+      // }
+    }
+    loadAuth();
+  }, []);
 
   return (
-    <Data.Provider value={contextValue}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
-    </Data.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export const userData = () => {
-  return useContext(Data);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  return context;
 };
 
-export default AuthContext;
+export default AuthProvider;

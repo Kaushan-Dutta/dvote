@@ -48,7 +48,7 @@ const Home = () => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   return (
     <div className='home' id="home">
-      <section className=' flx-row-center text-center h-[100vh]'>
+      <section className=' flx-row-center text-center h-[100vh] relative translate-y-10'>
         <motion.div className=' md:w-2/3 w-full flex flex-col gap-5' initial={{opacity:0,scale:0}} animate={{opacity:1,scale:1}} transition={{duration:1}}>
             <h1 className='font-header text-5xl md:text-8xl tracking-widest'><b>VOTE VERSE</b></h1>
             <p className='text-3xl md:text-4xl font-serif '>Decentralized voting application</p>

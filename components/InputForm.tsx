@@ -12,9 +12,10 @@ type Form={
 
 interface Input{
   title:string,
-  form:Form[]
+  form:Form[],
+  onSubmit:(e:any)=>void
 }
-const InputForm:React.FC<Input> = ({title,form}) => {
+const InputForm:React.FC<Input> = ({title,form,onSubmit}) => {
   return (
     <div className='w-96 '>
 
@@ -24,18 +25,18 @@ const InputForm:React.FC<Input> = ({title,form}) => {
 
       <div className='bg-dark rounded-3xl shadow-md  p-10 flex-col flex gap-5 '>
         <p className='text-center text-3xl mt-10 font-header'>{title}</p>
-
-        {form.map((item,id)=>(
-          <div className='gap-3 flex-col flex '>
-            <label className='text-xl'><b>{item.label}</b></label>
-            <input {...item} className='w-full bg-dark '/>   
-          </div>
-        ))}
-       
-        <div className='my-5 mx-auto'>
-          <Button navigate="/auth/login" name="Get Tokens"/>
-        </div> 
-             
+        <form className='flex-col flex gap-5' onSubmit={onSubmit}>
+          {form.map((item,id)=>(
+            <div className='gap-3 flex-col flex '>
+              <label className='text-xl'><b>{item.label}</b></label>
+              <input {...item} className='w-full bg-dark '/>   
+            </div>
+          ))}
+        
+          <div className='my-5 mx-auto'>
+            <Button name={title} />
+          </div> 
+        </form>    
       </div>
     </div>
   )

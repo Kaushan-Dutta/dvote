@@ -9,3 +9,17 @@ export const GET = async () => {
     return NextResponse.json({ error: err }, { status: 500 });
   }
 };
+// {
+//   include:{
+//     candidates:{
+//       include:{
+//         user:{
+//           select:{
+//             email:true,
+//             name:true
+//           }
+//         }
+//       },
+//     }
+//   }
+// }
